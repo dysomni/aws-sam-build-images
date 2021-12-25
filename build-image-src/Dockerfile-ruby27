@@ -1,6 +1,9 @@
 ARG IMAGE_ARCH
 FROM public.ecr.aws/sam/emulation-ruby2.7:latest-$IMAGE_ARCH
 
+ENV CFLAGS "-Os"
+ENV CXXFLAGS $CFLAGS
+
 # To learn more context around use of `amazonlinux:2` image please read comment in java11/build/Dockerfile
 FROM public.ecr.aws/amazonlinux/amazonlinux:2
 
@@ -25,6 +28,8 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   zlib1g-dev \
   libmpc-devel \
   python3-devel \
+  postgresql-devel \
+  libpq-dev \
   && yum clean all
 
 FROM public.ecr.aws/sam/emulation-ruby2.7:latest-$IMAGE_ARCH
